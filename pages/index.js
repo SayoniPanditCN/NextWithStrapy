@@ -6,7 +6,6 @@ import Blogs from "./components/Blogs";
 
 export default function Home({ data, data1 }) {
 
-
   return (
     <div className={styles.container}>
       <Head>

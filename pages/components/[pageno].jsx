@@ -2,13 +2,13 @@ import Blogs from "./Blogs";
 import styles from "../../styles/Home.module.css"
 
 export const getStaticPaths = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const res = await fetch("http://localhost:1337/api/blogs");
   const data = await res.json();
 
-  const paths = data.map((data) => {
+  const paths = Object.keys(data).map((data) => {
     return {
       params: {
-        pageno: data.id.toString(),
+        pageno: data.id,
       },
     };
   });
@@ -22,7 +22,7 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async (context) => {
   const id = context.params.pageno;
 
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+  const res = await fetch(`http://localhost:1337/api/blogs/${id}`);
   const data = await res.json();
 
   return {
