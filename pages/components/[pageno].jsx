@@ -5,41 +5,44 @@ export const getStaticPaths = async () => {
   const res = await fetch("http://localhost:1337/api/blogs");
   const data = await res.json();
 
-  // const paths = Object.keys(data).map((data) => {
-  //   console.log(data.id);
-  //   return {
-  //     params: {
-  //       // pageno: data.id.toString(),
-  //     },
-  //   };
-  // });
+  const paths = data.data.map((info) => {
+    return {
+      params: {
+        pageno: info.id.toString(),
+      },
+    };
+  });
 
   return {
-    paths: ["3"],
+    paths: paths,
     fallback: false,
   };
 };
+// console.log(getStaticPaths());
 
-// export const getStaticProps = async (context) => {
-//   const id = context.params.pageno;
+export const getStaticProps = async (context) => {
+  const id = context.params.pageno;
 
-//   const res = await fetch(`http://localhost:1337/api/blogs/${id}`);
-//   const data = await res.json();
+  const res = await fetch(`http://localhost:1337/api/blogs/${id}`);
+  const data = await res.json();
 
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
+  return {
+    props: {
+      data,
+    },
+  };
+};
+
+
 
 const SignleBlog = ({ data }) => {
+ 
   return (
     <div className={styles.card}>
       <h2>
-        {/* {data.id}.{data.title} */}
+        {data.data.id}.{data.data.attributes.Title}
       </h2>
-      {/* <p>{data.body}</p> */}
+      <p>{data.data.attributes.Body}</p>
     </div>
   );
 };
